@@ -13,12 +13,12 @@ class FileReader:
             print(f"An error occurred: {e}")
 
 def get_calibration_number(line: str) -> int:
-    tens = units = None 
+    tens = units = None
     sub_start = sub_end = 0
 
     for index, element in enumerate(line):
         if element.isdigit():
-            if tens == None:
+            if tens is None:
                 tens = units = element
             else:
                 units = element
@@ -27,19 +27,19 @@ def get_calibration_number(line: str) -> int:
             sub_end = index
             # REMEMBER: when getting a sub_str, the intervals are [ )
             number = get_number_from_string(line[sub_start:sub_end + 1])
-            if number != None:
-                if tens == None:
+            if number is not None:
+                if tens is None:
                     tens = units = number
                 else:
                     units = number
                 sub_start = sub_end = index
-        
-    return int(tens + units) if tens != None else 0
+
+    return int(tens + units) if tens is not None else 0
 
 def get_number_from_string(string) -> str | None:
     word_map = dict(zero="0", one="1", two="2", three="3", four="4", five="5", six="6", seven="7", eight="8", nine="9")
 
-    for key in word_map:
+    for key, _ in word_map.items():
         if is_word_contained(string, key):
             return word_map[key]
     return None
@@ -52,7 +52,7 @@ def is_word_contained(string, word) -> bool:
     return False
 
 def main() -> int:
-    file_path = "./input.txt"
+    file_path = "./2023/01/input.txt"
     result = 0
 
     file_reader = FileReader(file_path)
